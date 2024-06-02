@@ -49,7 +49,6 @@ public class Map
 
     public List<Vector3> GetPath(int startSurface, int endSurface)
     {
-
         var globalPath = findGlobalPath(startSurface, endSurface);
         var fullPath = new List<Vector3>();
         for(var i = 0; i < globalPath.Count - 1; ++i)

@@ -5,5 +5,5 @@ using UnityEngine;
 public class SurfaceScript : MonoBehaviour
 {
     [HideInInspector]
-    public int Index { get; set; }
+    public int Index { get; set; } = 0;
 }

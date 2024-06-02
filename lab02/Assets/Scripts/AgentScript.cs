@@ -10,7 +10,8 @@ public class AgentScript : MonoBehaviour
     private NavMeshAgent agent;
     private NavMeshAgent target;
     private PathFinder pathFinder;
-    public float epsilon = 0.000000001f;
+    public float targetEpsilon = 1f;
+    public float localEpsilon = 0.1f;
 
     public bool targetIsReached = false;
     public int steps = 0;
@@ -36,6 +37,8 @@ public class AgentScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (agent.enabled && Vector3.Distance(transform.position, targetObject.transform.position) < targetEpsilon)
+            agent.enabled = false;
         if (agent.velocity.magnitude > 0)
             MoveLegs();
     }
@@ -61,9 +64,8 @@ public class AgentScript : MonoBehaviour
             while (!(agent.CalculatePath(localTarget, navMeshPath) && navMeshPath.status == NavMeshPathStatus.PathComplete))
                 yield return new WaitForFixedUpdate();
             agent.SetPath(navMeshPath);
-            while (agent.remainingDistance > epsilon)
+            while (agent.enabled && agent.remainingDistance > localEpsilon)
                 yield return new WaitForFixedUpdate();
         }
-        agent.enabled = false;
     }
 }
